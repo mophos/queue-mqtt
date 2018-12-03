@@ -1,0 +1,2 @@
+MQTT_USER=q4u
+MQTT_PASSWORD=test
