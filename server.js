@@ -5,7 +5,7 @@ require('dotenv').config({ path: path.join(__dirname, './config') });
 var moscaSettings = {
   port: 1883,
   http: {
-    port: 8080
+    port: +process.env.MQTT_HTTP_PORT
   }
 };
 
@@ -14,7 +14,7 @@ server.on('ready', setup);	//on init it fires up setup()
 
 // fired when the mqtt server is ready
 function setup() {
-  server.authenticate = authenticate;
+  // server.authenticate = authenticate;
   console.log('Mosca server is up and running')
 }
 
