@@ -1,4 +1,4 @@
-FROM mophos/node:10
+FROM node:10
 
 LABEL maintainer="Satit Rianpit <rianpit@gmail.com>"
 
