@@ -2,8 +2,10 @@ FROM mophos/node:10
 
 LABEL maintainer="Satit Rianpit <rianpit@gmail.com>"
 
-WORKDIR /home/mqtt
+WORKDIR /home/queue-mqtt
 
 COPY . .
 
-CMD ["node", "server.js"]
+RUN npm i
+
+CMD ["npm", "start"]
