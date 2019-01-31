@@ -20,7 +20,7 @@ function setup() {
 
 var authenticate = function (client, username, password, callback) {
   var mqttUser = process.env.MQTT_USER || 'q4u';
-  var mqttPassword = process.env.MQTT_PASSWORD.toString() || 'q4u';
+  var mqttPassword = process.env.MQTT_PASSWORD.toString() || '##q4u##';
   
   var authorized = (username === mqttUser && password.toString() === mqttPassword);
   if (authorized) client.user = username;
