@@ -14,8 +14,8 @@ server.on('ready', setup);	//on init it fires up setup()
 
 // fired when the mqtt server is ready
 function setup() {
-  // server.authenticate = authenticate;
-  console.log('Mosca server is up and running')
+  server.authenticate = authenticate;
+  console.log('Mosca server is up and running (auth)')
 }
 
 var authenticate = function (client, username, password, callback) {
