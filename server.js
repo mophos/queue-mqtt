@@ -5,7 +5,10 @@ require('dotenv').config({ path: path.join(__dirname, './config') });
 var moscaSettings = {
   port: 1883,
   http: {
-    port: +process.env.MQTT_HTTP_PORT || 8888
+    port: +process.env.MQTT_HTTP_PORT || 8080
+  },
+   https: {
+    port: +process.env.MQTT_HTTPS_PORT || 4433
   }
 };
 
