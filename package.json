@@ -1,6 +1,6 @@
 {
   "name": "queue-mqtt",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aedes": "^0.48.0",
+    "aedes-server-factory": "^0.2.1",
     "dotenv": "^6.1.0",
-    "mosca": "^2.8.3"
+    "websocket-stream": "^5.5.2"
   }
 }

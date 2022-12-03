@@ -1,31 +1,35 @@
-var mosca = require('mosca');
+
 var path = require('path');
 require('dotenv').config({ path: path.join(__dirname, './config') });
 
-var moscaSettings = {
-  port: 1883,
-  http: {
-    port: +process.env.MQTT_HTTP_PORT || 8080
+const port = 1883
+const wsPort = +process.env.MQTT_HTTP_PORT || 8080
+
+const aedes = require('aedes')(
+  {
+    authenticate: (client, username, password, callback) => {
+      var mqttUser = process.env.MQTT_USER || 'q4u';
+      var mqttPassword = process.env.MQTT_PASSWORD.toString() || '##q4u##';
+      var authorized = (username === mqttUser && password.toString() === mqttPassword);
+      if (authorized) client.user = username;
+      callback(null, authorized);
+    },
   }
-};
+)
 
-var server = new mosca.Server(moscaSettings);	//here we start mosca
-server.on('ready', setup);	//on init it fires up setup()
+const server = require('net').createServer(aedes.handle);
+const httpServer = require('http').createServer()
+const ws = require('websocket-stream')
+ws.createServer({ server: httpServer }, aedes.handle)
 
-// fired when the mqtt server is ready
-function setup() {
-  server.authenticate = authenticate;
-  console.log('Mosca server is up and running (auth)')
-}
+server.listen(port, function () {
+  console.debug('Ades MQTT listening on port: ' + port)
+})
 
-var authenticate = function (client, username, password, callback) {
-  var mqttUser = process.env.MQTT_USER || 'q4u';
-  var mqttPassword = process.env.MQTT_PASSWORD.toString() || '##q4u##';
-  
-  var authorized = (username === mqttUser && password.toString() === mqttPassword);
-  if (authorized) client.user = username;
-  callback(null, authorized);
-}
+httpServer.listen(wsPort, function () {
+  console.debug('Aedes MQTT-WS listening on port: ' + wsPort)
+  aedes.publish({ topic: 'aedes/hello', payload: "I'm broker " + aedes.id })
+});
 
 server.on('clientConnected', function (client) {
   console.log('Client Connected:', client.id);
